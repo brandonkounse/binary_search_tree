@@ -2,7 +2,8 @@
 
 # class to represent data and next nodes
 class Node
-  attr_reader :data, :left, :right
+  attr_reader :data
+  attr_accessor :left, :right
 
   def initialize(data)
     @data = data
