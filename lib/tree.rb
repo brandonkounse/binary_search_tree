@@ -26,11 +26,7 @@ class Tree
     current = @root
 
     until current.left.nil? || current.right.nil?
-      if value > current.data
-        current = current.right
-      else
-        current = current.left
-      end
+      current = value > current.data ? current.right : current.left
     end
 
     if value > current.data
