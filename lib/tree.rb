@@ -21,4 +21,42 @@ class Tree
       @root = node
     end
   end
+
+  def insert(value)
+    current = @root
+
+    until current.left.nil? || current.right.nil?
+      if value > current.data
+        current = current.right
+      else
+        current = current.left
+      end
+    end
+
+    if value > current.data
+      current.right = Node.new(value)
+    else
+      current.left = Node.new(value)
+    end
+  end
+
+  def delete; end
+
+  def find; end
+
+  def level_order; end
+
+  def inorder; end
+
+  def preorder; end
+
+  def postorder; end
+
+  def height; end
+
+  def depth; end
+
+  def balanced?; end
+
+  def rebalance; end
 end
