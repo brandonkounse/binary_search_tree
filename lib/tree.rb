@@ -36,9 +36,19 @@ class Tree
     current
   end
 
-  def delete(value, current = @root, previous = nil); end
+  def delete(value, current = @root, previous = nil)
+    # placeholder
+  end
 
-  def find; end
+  def find(value, current = @root)
+    if value == current.data
+      current
+    elsif value > current.data
+      find(value, current.right)
+    else
+      find(value, current.left)
+    end
+  end
 
   def level_order; end
 
