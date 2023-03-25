@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pry-byebug'
+
 # class to represent tree with nodes
 class Tree
   attr_reader :root, :data
@@ -22,21 +24,19 @@ class Tree
     end
   end
 
-  def insert(value)
-    current = @root
-
-    until current.left.nil? || current.right.nil?
-      current = value > current.data ? current.right : current.left
-    end
-
-    if value > current.data
-      current.right = Node.new(value)
+  def insert(value, current = @root)
+    if current.nil?
+      return Node.new(value)
+    elsif value > current.data
+      current.right = insert(value, current.right)
     else
-      current.left = Node.new(value)
+      current.left = insert(value, current.left)
     end
+
+    current
   end
 
-  def delete; end
+  def delete(value, current = @root, previous = nil); end
 
   def find; end
 
@@ -55,4 +55,10 @@ class Tree
   def balanced?; end
 
   def rebalance; end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+  end
 end
