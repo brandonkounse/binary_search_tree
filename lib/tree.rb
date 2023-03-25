@@ -36,12 +36,39 @@ class Tree
     current
   end
 
-  def delete(value, current = @root, previous = nil)
-    # placeholder
+  def delete(value, current = @root)
+    if current.nil?
+      nil
+    elsif value > current.data
+      current.right = delete(value, current.right)
+    elsif value < current.data
+      current.left = delete(value, current.left)
+    elsif value == current.data
+      if current.left.nil?
+        current = current.right
+      elsif current.right.nil?
+        current = current.left
+      else
+        current.data = inorder_successor(current.right)
+        current.right = delete(current.data, current.right)
+      end
+    end
+    current
+  end
+
+  def inorder_successor(current = @root)
+    lowest_value = current.data
+    until current.left.nil?
+      lowest_value = current.left.data
+      current = current.left
+    end
+    lowest_value
   end
 
   def find(value, current = @root)
-    if value == current.data
+    if current.nil?
+      puts "#{value} not found!"
+    elsif value == current.data
       current
     elsif value > current.data
       find(value, current.right)
