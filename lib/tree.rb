@@ -82,13 +82,21 @@ class Tree
 
     until queue.empty?
       current = queue.shift
-      yield(current)
+      block_given? ? yield(current) : :data
       queue << current.left unless current.left.nil?
       queue << current.right unless current.right.nil?
     end
   end
 
-  def inorder; end
+  def inorder(current = @root, &block)
+    if current.nil?
+      nil
+    else
+      inorder(current.left, &block)
+      block_given? ? yield(current) : :data
+      inorder(current.right, &block)
+    end
+  end
 
   def preorder; end
 
