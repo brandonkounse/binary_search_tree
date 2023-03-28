@@ -98,9 +98,25 @@ class Tree
     end
   end
 
-  def preorder; end
+  def preorder(current = @root, &block)
+    if current.nil?
+      nil
+    else
+      block_given? ? yield(current) : :data
+      preorder(current.left, &block)
+      preorder(current.right, &block)
+    end
+  end
 
-  def postorder; end
+  def postorder(current = @root, &block)
+    if current.nil?
+      nil
+    else
+      postorder(current.left, &block)
+      postorder(current.right, &block)
+      block_given? ? yield(current) : :data
+    end
+  end
 
   def height; end
 
