@@ -9,5 +9,7 @@ tree.insert(40)
 tree.delete(8)
 tree.find(9)
 tree.level_order # { |element| puts element.data }
-tree.inorder { |element| puts element.data }
+tree.inorder # { |element| puts element.data }
+tree.preorder # { |element| puts element.data }
+tree.postorder { |element| puts element.data }
 tree.pretty_print
