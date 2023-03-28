@@ -77,7 +77,16 @@ class Tree
     end
   end
 
-  def level_order; end
+  def level_order(current = @root, queue = [])
+    queue << current
+
+    until queue.empty?
+      current = queue.shift
+      yield(current)
+      queue << current.left unless current.left.nil?
+      queue << current.right unless current.right.nil?
+    end
+  end
 
   def inorder; end
 
