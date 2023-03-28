@@ -8,4 +8,5 @@ tree.build_tree(tree.data)
 tree.insert(40)
 tree.delete(8)
 tree.find(9)
+tree.level_order { |element| puts element.data }
 tree.pretty_print
