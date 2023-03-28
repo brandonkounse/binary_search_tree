@@ -11,5 +11,6 @@ tree.find(9)
 tree.level_order # { |element| puts element.data }
 tree.inorder # { |element| puts element.data }
 tree.preorder # { |element| puts element.data }
-tree.postorder { |element| puts element.data }
+tree.postorder # { |element| puts element.data }
+p tree.height(4)
 tree.pretty_print
