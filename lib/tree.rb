@@ -118,7 +118,14 @@ class Tree
     end
   end
 
-  def height; end
+  def height(value, current = find(value))
+    return 0 if current.left.nil? && current.right.nil?
+
+    left_height = current.left.nil? ? 0 : height(value, current.left)
+    right_height = current.right.nil? ? 0 : height(value, current.right)
+
+    left_height > right_height ? left_height + 1 : right_height + 1
+  end
 
   def depth; end
 
