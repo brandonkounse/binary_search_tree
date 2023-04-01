@@ -139,7 +139,12 @@ class Tree
     end
   end
 
-  def balanced?; end
+  def balanced?
+    left_subtree = height(@root.data, @root.left) + 1
+    right_subtree = height(@root.data, @root.right) + 1
+
+    left_subtree - right_subtree <= 1
+  end
 
   def rebalance; end
 
