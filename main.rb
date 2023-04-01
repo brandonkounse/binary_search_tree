@@ -13,6 +13,7 @@ tree.level_order # { |element| puts element.data }
 tree.inorder # { |element| puts element.data }
 tree.preorder # { |element| puts element.data }
 tree.postorder # { |element| puts element.data }
-tree.height(4)
+tree.height(9)
 tree.depth(4)
+p tree.balanced?
 tree.pretty_print
