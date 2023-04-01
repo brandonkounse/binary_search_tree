@@ -128,7 +128,16 @@ class Tree
     left_height > right_height ? left_height + 1 : right_height + 1
   end
 
-  def depth(value, node = @root); end
+  def depth(value, node = @root)
+    return nil unless find(value)
+    return 0 if node.nil? || node.data == value
+
+    if value < node.data
+      depth(value, node.left) + 1
+    else
+      depth(value, node.right) + 1
+    end
+  end
 
   def balanced?; end
 
