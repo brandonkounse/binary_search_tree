@@ -24,110 +24,111 @@ class Tree
     end
   end
 
-  def insert(value, current = @root)
-    if current.nil?
+  def insert(value, node = @root)
+    if node.nil?
       return Node.new(value)
-    elsif value > current.data
-      current.right = insert(value, current.right)
+    elsif value > node.data
+      node.right = insert(value, node.right)
     else
-      current.left = insert(value, current.left)
+      node.left = insert(value, node.left)
     end
 
-    current
+    node
   end
 
-  def delete(value, current = @root)
-    if current.nil?
+  def delete(value, node = @root)
+    if node.nil?
       nil
-    elsif value > current.data
-      current.right = delete(value, current.right)
-    elsif value < current.data
-      current.left = delete(value, current.left)
-    elsif value == current.data
-      if current.left.nil?
-        current = current.right
-      elsif current.right.nil?
-        current = current.left
+    elsif value > node.data
+      node.right = delete(value, node.right)
+    elsif value < node.data
+      node.left = delete(value, node.left)
+    elsif value == node.data
+      if node.left.nil?
+        node = node.right
+      elsif node.right.nil?
+        node = node.left
       else
-        current.data = inorder_successor(current.right)
-        current.right = delete(current.data, current.right)
+        node.data = inorder_successor(node.right)
+        node.right = delete(node.data, node.right)
       end
     end
-    current
+    node
   end
 
-  def inorder_successor(current = @root)
-    lowest_value = current.data
-    until current.left.nil?
-      lowest_value = current.left.data
-      current = current.left
+  def inorder_successor(node = @root)
+    lowest_value = node.data
+    until node.left.nil?
+      lowest_value = node.left.data
+      node = node.left
     end
     lowest_value
   end
 
-  def find(value, current = @root)
-    if current.nil?
+  def find(value, node = @root)
+    if node.nil?
       puts "#{value} not found!"
-    elsif value == current.data
-      current
-    elsif value > current.data
-      find(value, current.right)
+      nil
+    elsif value == node.data
+      node
+    elsif value > node.data
+      find(value, node.right)
     else
-      find(value, current.left)
+      find(value, node.left)
     end
   end
 
-  def level_order(current = @root, queue = [])
-    queue << current
+  def level_order(node = @root, queue = [])
+    queue << node
 
     until queue.empty?
-      current = queue.shift
-      block_given? ? yield(current) : :data
-      queue << current.left unless current.left.nil?
-      queue << current.right unless current.right.nil?
+      node = queue.shift
+      block_given? ? yield(node) : :data
+      queue << node.left unless node.left.nil?
+      queue << node.right unless node.right.nil?
     end
   end
 
-  def inorder(current = @root, &block)
-    if current.nil?
+  def inorder(node = @root, &block)
+    if node.nil?
       nil
     else
-      inorder(current.left, &block)
-      block_given? ? yield(current) : :data
-      inorder(current.right, &block)
+      inorder(node.left, &block)
+      block_given? ? yield(node) : :data
+      inorder(node.right, &block)
     end
   end
 
-  def preorder(current = @root, &block)
-    if current.nil?
+  def preorder(node = @root, &block)
+    if node.nil?
       nil
     else
-      block_given? ? yield(current) : :data
-      preorder(current.left, &block)
-      preorder(current.right, &block)
+      block_given? ? yield(node) : :data
+      preorder(node.left, &block)
+      preorder(node.right, &block)
     end
   end
 
-  def postorder(current = @root, &block)
-    if current.nil?
+  def postorder(node = @root, &block)
+    if node.nil?
       nil
     else
-      postorder(current.left, &block)
-      postorder(current.right, &block)
-      block_given? ? yield(current) : :data
+      postorder(node.left, &block)
+      postorder(node.right, &block)
+      block_given? ? yield(node) : :data
     end
   end
 
-  def height(value, current = find(value))
-    return 0 if current.left.nil? && current.right.nil?
+  def height(value, node = find(value))
+    return 0 if node.left.nil? && node.right.nil?
 
-    left_height = current.left.nil? ? 0 : height(value, current.left)
-    right_height = current.right.nil? ? 0 : height(value, current.right)
+    left_height = node.left.nil? ? 0 : height(value, node.left)
+    right_height = node.right.nil? ? 0 : height(value, node.right)
 
     left_height > right_height ? left_height + 1 : right_height + 1
   end
 
-  def depth; end
+  def depth(value, node = @root); end
 
   def balanced?; end
 
