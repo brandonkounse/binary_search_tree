@@ -83,40 +83,40 @@ class Tree
 
     until queue.empty?
       node = queue.shift
-      block_given? ? yield(node) : :data
+      block_given? ? yield(node) : @data
       queue << node.left unless node.left.nil?
       queue << node.right unless node.right.nil?
     end
   end
 
-  def inorder(node = @root, &block)
-    if node.nil?
-      nil
-    else
-      inorder(node.left, &block)
-      block_given? ? yield(node) : :data
-      inorder(node.right, &block)
-    end
+  def inorder(node = @root, arr = [], &block)
+    return nil if node.nil?
+
+    inorder(node.left, arr, &block)
+    block_given? ? yield(node) : arr << node.data
+    inorder(node.right, arr, &block)
+
+    arr
   end
 
-  def preorder(node = @root, &block)
-    if node.nil?
-      nil
-    else
-      block_given? ? yield(node) : :data
-      preorder(node.left, &block)
-      preorder(node.right, &block)
-    end
+  def preorder(node = @root, arr = [], &block)
+    return nil if node.nil?
+
+    block_given? ? yield(node) : arr << node.data
+    preorder(node.left, arr, &block)
+    preorder(node.right, arr, &block)
+
+    arr
   end
 
-  def postorder(node = @root, &block)
-    if node.nil?
-      nil
-    else
-      postorder(node.left, &block)
-      postorder(node.right, &block)
-      block_given? ? yield(node) : :data
-    end
+  def postorder(node = @root, arr = [], &block)
+    return nil if node.nil?
+
+    postorder(node.left, arr, &block)
+    postorder(node.right, arr, &block)
+    block_given? ? yield(node) : arr << node.data
+
+    arr
   end
 
   def height(value, node = find(value))
@@ -139,14 +139,22 @@ class Tree
     end
   end
 
-  def balanced?
-    left_subtree = height(@root.data, @root.left) + 1
-    right_subtree = height(@root.data, @root.right) + 1
+  def balanced?(node = @root)
+    left_subtree = height(node.data, node.left) + 1
+    right_subtree = height(node.data, node.right) + 1
 
-    left_subtree - right_subtree <= 1
+    difference = left_subtree - right_subtree
+    difference = difference.negative? ? (difference * -1) : difference
+    difference <= 1
   end
 
-  def rebalance; end
+  def rebalance
+    if balanced?
+      puts 'tree is balanced!'
+    else
+      build_tree(inorder)
+    end
+  end
 
   # credit for this method provided in README
   def pretty_print(node = @root, prefix = '', is_left = true)
